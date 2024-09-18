@@ -35,7 +35,7 @@ chain_type_kwargs={"prompt": PROMPT}
 
 # Function to download the model if it's not already present
 def download_model():
-    model_url = "https://huggingface.co/username/model-repo/resolve/main/your-model-file.bin"
+    model_url = "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/resolve/main/llama-2-7b-chat.ggmlv3.q4_0.bin?download=true"
     model_dir = "model/"
     os.makedirs(model_dir, exist_ok=True)
     model_path = os.path.join(model_dir, "llama-2-7b-chat.ggmlv3.q4_0.bin")
