@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from src.prompt import *
 import os
 from langchain.chains import RetrievalQA
+import subprocess
 
 app = Flask(__name__)
 
@@ -29,6 +30,25 @@ PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "que
 
 
 chain_type_kwargs={"prompt": PROMPT}
+
+
+
+# Function to download the model if it's not already present
+def download_model():
+    model_url = "https://huggingface.co/username/model-repo/resolve/main/your-model-file.bin"
+    model_dir = "model/"
+    os.makedirs(model_dir, exist_ok=True)
+    model_path = os.path.join(model_dir, "llama-2-7b-chat.ggmlv3.q4_0.bin")
+
+    if not os.path.exists(model_path):
+        print("Downloading model...")
+        subprocess.run(["wget", model_url, "-O", model_path])
+        print(f"Downloaded model to {model_path}")
+    else:
+        print("Model already exists. Skipping download.")
+
+# Download model before proceeding
+download_model()
 
 llm=CTransformers(model="model/llama-2-7b-chat.ggmlv3.q4_0.bin",
                   model_type="llama",
