@@ -6,6 +6,7 @@ flask
 pypdf
 python-dotenv
 langchain_pinecone
+langchain-community
 huggingface_hub
 tqdm
 -e .
