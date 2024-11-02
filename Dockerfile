@@ -16,7 +16,8 @@ RUN mkdir -p model && \
 
 # Step 5: Copy requirements and install dependencies
 COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install gunicorn  
 
 # Step 6: Copy all application code
 COPY . /app
@@ -24,5 +25,5 @@ COPY . /app
 # Step 7: Expose necessary port
 EXPOSE 5000
 
-# Step 8: Run the application
-CMD ["python", "app.py"]
+# Step 8: Run the application with Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
