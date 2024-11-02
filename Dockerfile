@@ -7,6 +7,7 @@ WORKDIR /app
 # Step 3: Install system dependencies, including wget
 RUN apt-get update && \
     apt-get install -y wget && \
+    pip install --upgrade pip setuptools && \
     rm -rf /var/lib/apt/lists/*
 
 # Step 4: Download the model during build
