@@ -10,21 +10,20 @@ RUN apt-get update && \
     pip install --upgrade pip setuptools && \
     rm -rf /var/lib/apt/lists/*
 
-# Step 4: Download the model during build
-RUN mkdir -p model && \
-    wget --no-cache https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/resolve/main/llama-2-7b-chat.ggmlv3.q4_0.bin -O model/llama-2-7b-chat.ggmlv3.q4_0.bin
-
-# Step 5: Copy requirements and install dependencies
+# Step 4: Copy requirements and install dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install gunicorn  
 
-# Step 6: Copy all application code
+# Step 5: Copy all application code
 COPY . /app
 
-# Step 7: Expose necessary port
+# Step 6: Expose necessary port
 EXPOSE 5000
 
-# Step 8: Run the application with Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--timeout", "120", "app:app"]
+# Step 7: Set up the entrypoint script to download the model and start the app
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
+# Step 8: Run the entrypoint script
+CMD ["/app/entrypoint.sh"]
